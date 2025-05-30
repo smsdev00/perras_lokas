@@ -50,15 +50,15 @@
         }
 
         .card-dog .card-body {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 0 0 20px 20px;
-    padding: 0.5rem;
-}
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 0 0 20px 20px;
+            padding: 0.5rem;
+        }
 
 
         .card-title {
@@ -147,54 +147,83 @@
         <div class="score-counter">
             💰 Balance Actual: {{ balance >= 0 ? '+' : '' }}{{ balance.toLocaleString() }} créditos
         </div>
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">{{ siteName }}</a>
+            <a class="navbar-brand" href="#" @click="seccionActual = 'inicio'">{{ siteName }}</a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#" @click="seccionActual = 'inicio'">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" @click="seccionActual = 'videos'">Videoteca</a></li>
+            </ul>
         </nav>
 
-        <div class="container my-4">
-            <h1 class="text-center display-4">Bienvenido a la página d PALTA y sus amigas!</h1>
-            <p class="text-center">Explota los sentidos con perras hiperactivas, colores imposibles y deudas
-                imaginarias.</p>
+        <div v-if="seccionActual === 'inicio'">
 
-            <div class="row">
-                <div v-for="perra in perras" :key="perra.id" class="col-md-4">
-                    <div class="card card-dog" :style="{'background-image': 'url(' + perra.imagen + ')'}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ perra.nombre }}</h5>
-                            <p class="card-text">{{ perra.descripcion }}</p>
+            <div class="container my-4">
+                <h1 class="text-center display-4">Bienvenido a la página d PALTA y sus amigas!</h1>
+                <p class="text-center">Explota los sentidos con perras hiperactivas, colores imposibles y deudas
+                    imaginarias.</p>
+
+                <div class="row">
+                    <div v-for="perra in perras" :key="perra.id" class="col-md-4">
+                        <div class="card card-dog" :style="{'background-image': 'url(' + perra.imagen + ')'}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ perra.nombre }}</h5>
+                                <p class="card-text">{{ perra.descripcion }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="matrix-console">
-                <p class="console-line" v-for="(line, index) in consola" :key="index">{{ line }}</p>
-                <p class="console-line" v-if="lineaEnCurso">{{ lineaEnCurso }}</p>
-            </div>
+                <div id="matrix-console">
+                    <p class="console-line" v-for="(line, index) in consola" :key="index">{{ line }}</p>
+                    <p class="console-line" v-if="lineaEnCurso">{{ lineaEnCurso }}</p>
+                </div>
 
-            <div id="prestamos-section">
-                <h2>Préstamos Perrunos</h2>
-                <button class="btn btn-deuda" @click="solicitarDinero">Solicitar Dinero Ficticio</button>
-                <div v-if="mostrarMensajeDeuda" class="deuda-alert">
-                    😡 Tu deuda ahora es de <strong>{{ deuda }} huesitos dorados</strong>.<br>
-                    <em>Duquesa 'Demente' te está buscando. Corre.</em>
+                <div id="prestamos-section">
+                    <h2>Préstamos Perrunos</h2>
+                    <button class="btn btn-deuda" @click="solicitarDinero">Solicitar Dinero Ficticio</button>
+                    <div v-if="mostrarMensajeDeuda" class="deuda-alert">
+                        😡 Tu deuda ahora es de <strong>{{ deuda }} huesitos dorados</strong>.<br>
+                        <em>Duquesa 'Demente' te está buscando. Corre.</em>
+                    </div>
+                </div>
+
+                <div id="dogcoin-section">
+                    <h2>Dogcoin - ¡La Cripto Perruna!</h2>
+                    <p>Valor actual de 1 Dogcoin: <strong>{{ dogcoin }} huesitos</strong>. ¡Intercambiable por besitos y
+                        carnitas!</p>
+                </div>
+
+                <div id="telepatia-section">
+                    <h2>Telepatía Canina</h2>
+                    <p @click="lanzarTelepatia" style="cursor:pointer; font-size:1.5em;">Haz clic aquí para saber lo que
+                        está pensando tu perra...</p>
+                    <p v-if="mensajeTelepatico">🐶 "{{ mensajeTelepatico }}"</p>
                 </div>
             </div>
-
-            <div id="dogcoin-section">
-                <h2>Dogcoin - ¡La Cripto Perruna!</h2>
-                <p>Valor actual de 1 Dogcoin: <strong>{{ dogcoin }} huesitos</strong>. ¡Intercambiable por besitos y
-                    carnitas!</p>
-            </div>
-
-            <div id="telepatia-section">
-                <h2>Telepatía Canina</h2>
-                <p @click="lanzarTelepatia" style="cursor:pointer; font-size:1.5em;">Haz clic aquí para saber lo que
-                    está pensando tu perra...</p>
-                <p v-if="mensajeTelepatico">🐶 "{{ mensajeTelepatico }}"</p>
-            </div>
         </div>
+
+        <div v-if="seccionActual === 'videos'" class="container my-4">
+            <h1 class="text-center display-4">🎬 Videoteca Perruna</h1>
+            <div class="row">
+              <div class="col-md-6 mb-4" v-for="video in videos" :key="video.youtubeId">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">{{ video.titulo }}</h5>
+                    <div class="video-container">
+                      <iframe
+                        :src="'https://www.youtube.com/embed/' + video.youtubeId"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                      </iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
     </div>
 
     <script>
@@ -202,6 +231,7 @@
             el: '#app',
             data: {
                 siteName: 'PerrasLocas.com',
+                seccionActual: 'inicio',
                 mostrarMensajeDeuda: false,
                 deuda: 37,
                 dogcoin: 7.5,
@@ -304,9 +334,30 @@
                         id: 11,
                         nombre: "Luna 'La hermana menor de la jefa' ",
                         descripcion: "Se nos recomendó amablemente no hablar de la familia de la jefa...",
-                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex" 
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
                     }
+                ],
+                videos: [
+                    {
+                        titulo: "Palta vs Suri vs La Jefa",
+                        youtubeId: "360N3BzAPm0"
+                    },
+                    {
+                        titulo: "Kira vs Suri v Palta",
+                        youtubeId: "z7zz-h8otQQ"
+                    },
+                    {
+                        titulo: "Vs Pirita",
+                        youtubeId: "aCppcuadg24"
+                    },
+                    {
+                        titulo: "Vs Guara",
+                        youtubeId: "mxxRo436ZH8"
+                    }
+
+                    
                 ]
+
             },
             methods: {
                 solicitarDinero() {
