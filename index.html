@@ -1,276 +1,389 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PerrasLocas.com - Versión Noventosa y Desquiciada</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: repeating-linear-gradient(45deg, #ff69b4, #ff69b4 10px, #00ffff 10px, #00ffff 20px);
-      color: #000;
-    }
-
-    .navbar-brand {
-      font-size: 2em;
-      color: yellow !important;
-      animation: wiggle 0.3s infinite alternate;
-      text-shadow: 2px 2px #000;
-    }
-
-    @keyframes wiggle {
-      from { transform: rotate(-3deg); }
-      to { transform: rotate(3deg); }
-    }
-
-    .card-dog {
-      background-size: cover;
-      background-position: center;
-      height: 250px;
-      border: 5px dashed hotpink;
-      border-radius: 20px;
-      box-shadow: 0 0 25px 5px #ff0, 0 0 10px 2px #00f inset;
-      transition: transform 0.4s, box-shadow 0.4s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card-dog:hover {
-      transform: scale(1.05) rotate(-2deg);
-      box-shadow: 0 0 25px 5px #f0f, 0 0 15px 5px #0ff inset;
-      z-index: 2;
-    }
-
-    .card-dog .card-body {
-      background: rgba(255, 255, 255, 0.8);
-      color: #000;
-      border-radius: 15px;
-      padding: 1rem;
-      margin: 4.5rem 1rem 1rem;
-      box-shadow: 0 0 10px #000;
-      text-align: center;
-    }
-
-    .card-title {
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #ff1493;
-      text-shadow: 1px 1px #000;
-    }
-
-    .card-text {
-      font-size: 1rem;
-      color: #333;
-    }
-
-    .btn-deuda {
-      background-color: red;
-      color: white;
-      font-weight: bold;
-      border: 4px dashed yellow;
-      border-radius: 20px;
-      text-transform: uppercase;
-      box-shadow: 0 0 10px black;
-    }
-
-    .btn-deuda:hover {
-      transform: scale(1.2) rotate(-3deg);
-      background-color: black;
-      color: red;
-    }
-
-    #prestamos-section, #dogcoin-section, #telepatia-section {
-      padding: 2rem;
-      background: linear-gradient(to bottom, #ff0, #f0f);
-      text-align: center;
-      border-top: 5px dotted #000;
-    }
-
-    .deuda-alert {
-      font-size: 1.5em;
-      color: red;
-      background: yellow;
-      padding: 1rem;
-      margin-top: 1rem;
-      border: 3px double black;
-    }
-
-    #matrix-console {
-      background-color: black;
-      color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
-      padding: 1rem;
-      margin: 2rem auto;
-      border: 3px solid #0f0;
-      border-radius: 10px;
-      height: 200px;
-      overflow: hidden;
-      box-shadow: 0 0 20px #0f0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .console-line {
-      white-space: pre-wrap;
-      margin: 0;
-      line-height: 1.2em;
-    }
-  </style>
-</head>
-<body>
-<div id="app">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">{{ siteName }}</a>
-  </nav>
-
-  <div class="container my-4">
-    <h1 class="text-center display-4">Bienvenido a la Dimensión Perruna 90's</h1>
-    <p class="text-center">Explota los sentidos con perras hiperactivas, colores imposibles y deudas imaginarias.</p>
-
-    <div class="row">
-      <div v-for="perra in perras" :key="perra.id" class="col-md-4">
-        <div class="card card-dog" :style="{'background-image': 'url(' + perra.imagen + ')'}">
-          <div class="card-body">
-            <h5 class="card-title">{{ perra.nombre }}</h5>
-            <p class="card-text">{{ perra.descripcion }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Consola estilo Matrix -->
-    <div id="matrix-console">
-      <p class="console-line" v-for="(line, index) in consola" :key="index">{{ line }}</p>
-      <p class="console-line" v-if="lineaEnCurso">{{ lineaEnCurso }}</p>
-    </div>
-
-    <div id="prestamos-section">
-      <h2>Préstamos Perrunos</h2>
-      <button class="btn btn-deuda" @click="mostrarDeuda">Solicitar Dinero Ficticio</button>
-      <div v-if="mostrarMensajeDeuda" class="deuda-alert">
-        😡 Tu deuda ahora es de <strong>{{ deuda }} huesitos dorados</strong>.<br>
-        <em>Duquesa 'Demente' te está buscando. Corre.</em>
-      </div>
-    </div>
-
-    <div id="dogcoin-section">
-      <h2>Dogcoin - ¡La Cripto Perruna!</h2>
-      <p>Valor actual de 1 Dogcoin: <strong>{{ dogcoin }} huesitos</strong>. ¡Intercambiable por lametones y croquetas!</p>
-    </div>
-
-    <div id="telepatia-section">
-      <h2>Telepatía Canina</h2>
-      <p @click="lanzarTelepatia" style="cursor:pointer; font-size:1.5em;">Haz clic aquí para enviar un mensaje mental a tu perra...</p>
-      <p v-if="mensajeTelepatico">🐶 "{{ mensajeTelepatico }}"</p>
-    </div>
-  </div>
-</div>
-
-<script>
-new Vue({
-  el: '#app',
-  data: {
-    siteName: 'PerrasLocas.com',
-    mostrarMensajeDeuda: false,
-    deuda: 37,
-    dogcoin: 7.5,
-    mensajeTelepatico: '',
-    consola: [],
-    lineaEnCurso: '',
-    escribiendo: false,
-    mensajesConsola: [
-      "Analizando entorno...",
-      "Huesito detectado 🦴",
-      "Roboneando huesito...",
-      "Sniff sniff... humedad al 73%",
-      "Calculando trayectoria de salto...",
-      "Error 404: Croqueta no encontrada.",
-      "Modo sigilo activado.",
-      "Detectando ardilla sospechosa...",
-      "Bandeja de entrada: 1 ladrido nuevo.",
-      "Interferencia de gato detectada.",
-      "Snacks cercanos a 3 metros.",
-      "Alerta: Humano moviéndose hacia la heladera."
-    ],
-    perras: [
-      {
-        id: 1,
-        nombre: "Duquesa 'Demente' Von Woofington",
-        descripcion: "La coleccionista de calcetines y cobradora de huesos implacable.",
-        imagen: "palta.png"
-      },
-      {
-        id: 2,
-        nombre: "Sargento 'Saltarina' Patitas",
-        descripcion: "Ejecuta saltos triples mortales cuando escucha una bolsa de snacks.",
-        imagen: "https://placehold.co/300x200/00ffff/000?text=Sargento"
-      },
-      {
-        id: 3,
-        nombre: "Princesa 'Pirueta' Pelusa",
-        descripcion: "La cazadora de ardillas y defensora del sofá sagrado.",
-        imagen: "https://placehold.co/300x200/ffc0cb/000?text=Pelusa"
-      },
-      {
-        id: 4,
-        nombre: "Comandanta 'Croqueta' Rex",
-        descripcion: "Líder de la rebelión croquetil del parque.",
-        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
-      }
-    ]
-  },
-  methods: {
-    mostrarDeuda() {
-      this.mostrarMensajeDeuda = true;
-      alert("La perra te observa desde la ventana. Aún debes huesitos. Y le debes respeto.");
-    },
-    lanzarTelepatia() {
-      const mensajes = [
-        "Traeme una salchicha o habrá consecuencias.",
-        "He escondido tu media izquierda. Nunca la recuperarás.",
-        "Solo acepto snacks premium a partir de ahora.",
-        "He aprendido a abrir la heladera. Tú decides cómo sigue esto."
-      ];
-      this.mensajeTelepatico = mensajes[Math.floor(Math.random() * mensajes.length)];
-    },
-    escribirTeletipo(mensaje) {
-      if (this.escribiendo) return;
-      this.lineaEnCurso = '';
-      this.escribiendo = true;
-      let i = 0;
-      const escribir = () => {
-        if (i <= mensaje.length) {
-          this.lineaEnCurso = mensaje.substring(0, i);
-          i++;
-          setTimeout(escribir, 30);
-        } else {
-          this.consola.push(mensaje);
-          if (this.consola.length > 10) this.consola.shift();
-          this.lineaEnCurso = '';
-          this.escribiendo = false;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerrasLocas.com - Versión Noventosa y Desquiciada</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: repeating-linear-gradient(45deg, #ff69b4, #ff69b4 10px, #00ffff 10px, #00ffff 20px);
+            color: #000;
         }
-      };
-      escribir();
-    }
-  },
-  mounted() {
-    setInterval(() => {
-      if (this.mostrarMensajeDeuda) {
-        this.deuda += Math.floor(Math.random() * 5) + 1;
-      }
-      this.dogcoin += (Math.random() - 0.5).toFixed(2) * 2;
-      this.dogcoin = parseFloat(this.dogcoin.toFixed(2));
-    }, 3000);
 
-    setInterval(() => {
-      const mensaje = this.mensajesConsola[Math.floor(Math.random() * this.mensajesConsola.length)];
-      this.escribirTeletipo(mensaje);
-    }, 3500);
-  }
-});
-</script>
+        .navbar-brand {
+            font-size: 2em;
+            color: yellow !important;
+            animation: wiggle 0.3s infinite alternate;
+            text-shadow: 2px 2px #000;
+        }
+
+        @keyframes wiggle {
+            from {
+                transform: rotate(-3deg);
+            }
+
+            to {
+                transform: rotate(3deg);
+            }
+        }
+
+        .card-dog {
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            border: 5px dashed hotpink;
+            border-radius: 20px;
+            box-shadow: 0 0 25px 5px #ff0, 0 0 10px 2px #00f inset;
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-dog:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 0 25px 5px #f0f, 0 0 15px 5px #0ff inset;
+            z-index: 2;
+        }
+
+        .card-dog .card-body {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 4.5rem 1rem 1rem;
+            box-shadow: 0 0 10px #000;
+            text-align: center;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ff1493;
+            text-shadow: 1px 1px #000;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .btn-deuda {
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            border: 4px dashed yellow;
+            border-radius: 20px;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px black;
+        }
+
+        .btn-deuda:hover {
+            transform: scale(1.2) rotate(-3deg);
+            background-color: black;
+            color: red;
+        }
+
+        #prestamos-section,
+        #dogcoin-section,
+        #telepatia-section {
+            padding: 2rem;
+            background: linear-gradient(to bottom, #ff0, #f0f);
+            text-align: center;
+            border-top: 5px dotted #000;
+        }
+
+        .deuda-alert {
+            font-size: 1.5em;
+            color: red;
+            background: yellow;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 3px double black;
+        }
+
+        #matrix-console {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 1rem;
+            margin: 2rem auto;
+            border: 3px solid #0f0;
+            border-radius: 10px;
+            height: 200px;
+            overflow: hidden;
+            box-shadow: 0 0 20px #0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .console-line {
+            white-space: pre-wrap;
+            margin: 0;
+            line-height: 1.2em;
+        }
+
+        .score-counter {
+            background: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 2em;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-bottom: 5px solid lime;
+            text-shadow: 0 0 5px #0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="score-counter">
+            💰 Balance Actual: {{ balance >= 0 ? '+' : '' }}{{ balance.toLocaleString() }} créditos
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">{{ siteName }}</a>
+        </nav>
+
+        <div class="container my-4">
+            <h1 class="text-center display-4">Bienvenido a la página d PALTA y sus amigas!</h1>
+            <p class="text-center">Explota los sentidos con perras hiperactivas, colores imposibles y deudas
+                imaginarias.</p>
+
+            <div class="row">
+                <div v-for="perra in perras" :key="perra.id" class="col-md-4">
+                    <div class="card card-dog" :style="{'background-image': 'url(' + perra.imagen + ')'}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ perra.nombre }}</h5>
+                            <p class="card-text">{{ perra.descripcion }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="matrix-console">
+                <p class="console-line" v-for="(line, index) in consola" :key="index">{{ line }}</p>
+                <p class="console-line" v-if="lineaEnCurso">{{ lineaEnCurso }}</p>
+            </div>
+
+            <div id="prestamos-section">
+                <h2>Préstamos Perrunos</h2>
+                <button class="btn btn-deuda" @click="solicitarDinero">Solicitar Dinero Ficticio</button>
+                <div v-if="mostrarMensajeDeuda" class="deuda-alert">
+                    😡 Tu deuda ahora es de <strong>{{ deuda }} huesitos dorados</strong>.<br>
+                    <em>Duquesa 'Demente' te está buscando. Corre.</em>
+                </div>
+            </div>
+
+            <div id="dogcoin-section">
+                <h2>Dogcoin - ¡La Cripto Perruna!</h2>
+                <p>Valor actual de 1 Dogcoin: <strong>{{ dogcoin }} huesitos</strong>. ¡Intercambiable por besitos y
+                    carnitas!</p>
+            </div>
+
+            <div id="telepatia-section">
+                <h2>Telepatía Canina</h2>
+                <p @click="lanzarTelepatia" style="cursor:pointer; font-size:1.5em;">Haz clic aquí para saber lo que
+                    está pensando tu perra...</p>
+                <p v-if="mensajeTelepatico">🐶 "{{ mensajeTelepatico }}"</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                siteName: 'PerrasLocas.com',
+                mostrarMensajeDeuda: false,
+                deuda: 37,
+                dogcoin: 7.5,
+                mensajeTelepatico: '',
+                consola: [],
+                lineaEnCurso: '',
+                escribiendo: false,
+                balance: Math.floor(Math.random() * -10000000), // saldo inicial negativo aleatorio
+                mensajesConsola: [
+                    "Analizando entorno...",
+                    "Huesito detectado 🦴",
+                    "Roboneando huesito...",
+                    "Sniff sniff... humedad al 73%",
+                    "Calculando trayectoria de salto...",
+                    "Error 404: carnita no encontrada.",
+                    "Modo sigilo activado.",
+                    "Detectando ardilla sospechosa...",
+                    "Bandeja de entrada: 1 ladrido nuevo.",
+                    "Interferencia de gato detectada.",
+                    "Snacks cercanos a 3 metros.",
+                    "Alerta: Humano moviéndose hacia la heladera.",
+                    "Compilando mapa de olores recientes...",
+                    "Sistemas online. Colita lista para acción.",
+                    "Iniciando protocolo de mendicidad.",
+                    "Procesando mirada de culpabilidad máxima.",
+                    "Señal de croqueta perdida. Reintentando...",
+                    "Cargando datos de paseo anterior...",
+                    "Escaneando cama: temperatura óptima.",
+                    "Misión: robar media izquierda iniciada.",
+                    "Modo zoomies activado en 3... 2... 1...",
+                    "Buffer de caricias al 12%. Se requieren recargas.",
+                    "Picazón detectada en sector alfa. Iniciando maniobras de rascado.",
+                    "Osobuco detectado. Iniciando maniobras hostiles.",
+                    "Curso de colisión con humano. Impacto inminente. Acción: ACELERAR",
+                    "Protocolo de olisqueo iniciado. Estado del paseo: PAUSADO"
+
+                ],
+                perras: [
+                    {
+                        id: 1,
+                        nombre: "Palta 'La Paltosa' ",
+                        descripcion: "Peleadora incansable, especialista en mordida de patas. Fuerza bruta en su máxima expresión",
+                        imagen: "palta.png"
+                    },
+                    {
+                        id: 2,
+                        nombre: "Suri 'La Zorrita'",
+                        descripcion: "Rápida como el viento. Ataques de presición quirurgica. No falla",
+                        imagen: "https://placehold.co/300x200/00ffff/000?text=Sargento"
+                    },
+                    {
+                        id: 3,
+                        nombre: "Guara 'Mandibula de acero' ",
+                        descripcion: "Un espiritu libre. Le gusta jugar, explorar y eventualmente ha sido acusada, sin prueba alguna, de robar cosas del piso. ",
+                        imagen: "https://placehold.co/300x200/ffc0cb/000?text=Pelusa"
+                    },
+                    {
+                        id: 4,
+                        nombre: "Gala 'La enoja Madres' ",
+                        descripcion: "Un arma de destrucción de masiva en forma de perro. Su ataque especial de giro con impacto de cadera es devastador",
+                        imagen: "https://placehold.co/300x200/ffc0cb/000?text=Pelusa"
+                    },
+                    {
+                        id: 5,
+                        nombre: "Obi 'El perro de barro' ",
+                        descripcion: "Le gusta mucho mucho mucho mojarse.",
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
+                    },
+                    {
+                        id: 6,
+                        nombre: "Chancho 'El punga' ",
+                        descripcion: "Su lema es, tu pelota ahora es mia.",
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
+                    },
+                    {
+                        id: 7,
+                        nombre: "Moca 'Pocas Pulgas' ",
+                        descripcion: "Me estás mirando mal?",
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
+                    },
+                    {
+                        id: 8,
+                        nombre: "Chinchulin 'Movimiento perpetuo' ",
+                        descripcion: "Su nivel de energía desafía todo lo conocido hasta el momento",
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
+                    },
+                    {
+                        id: 9,
+                        nombre: "Mora 'Patitas locas' ",
+                        descripcion: "Una perrita muy dulce y educada",
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
+                    },
+                    {
+                        id: 10,
+                        nombre: "Monica 'La jefa' ",
+                        descripcion: "Se nos recomendó amablemente no hablar de la jefa...",
+                        imagen: "https://placehold.co/300x200/ffcc00/000?text=Rex"
+                    }
+                ]
+            },
+            methods: {
+                solicitarDinero() {
+                    this.balance = Math.floor(Math.random() * 19999999 - 9999999); // entre -9999999 y +9999999
+                    this.deuda += Math.floor(Math.random() * 5) + 1;
+
+                    // Mostrar mensaje visual
+                    this.mostrarMensajeDeuda = true;
+
+                    // Ocultar el mensaje a los 10 segundos
+                    //setTimeout(() => {
+                    //  this.mostrarMensajeDeuda = false;
+                    //}, 10000);
+                    setInterval(() => {
+                        this.balance = Math.floor(Math.random() * 19999999 - 9999999); // entre -9999999 y +9999999
+                    }, 2000);
+                },
+
+                lanzarTelepatia() {
+                    const mensajes = [
+                        "Traeme una salchicha o habrá consecuencias.",
+                        "He escondido tu media izquierda. Nunca la recuperarás.",
+                        "Solo acepto snacks premium a partir de ahora.",
+                        "He aprendido a abrir la heladera. Tú decides cómo sigue esto.",
+                        "He masticado algo importante. Te toca descubrir qué era.",
+                        "Cada vez que ignorás mi cola moviéndose, me acerco más a la traición.",
+                        "Tu cama ahora es mía. Y ronco.",
+                        "Si no salimos a pasear ya, voy a votar en las próximas elecciones.",
+                        "He memorizado tus horarios. No estás a salvo.",
+                        "Hoy ladro cada vez que respires. Suerte durmiendo.",
+                        "Comí algo del tacho. Tal vez no era comestible. Tal vez sí.",
+                        "Te vi tocando la bolsa de galletas. No disimules.",
+                        "Cada vez que usás el teléfono, planifico un golpe de estado.",
+                        "Me gustan tus ojotas. En especial el sabor a derrota que tienen.",
+                        "He enterrado algo en la alfombra. No sabés cuándo ni qué.",
+                        "No me diste bocado. Consideralo un acto hostil.",
+                        "Pisé lo que no debía. Lo extendí por donde sí.",
+                        "Hoy me subo al sillón mojado. ¿Querías emociones fuertes, no?",
+                        "Si no me tirás la pelota, te la dejo en la almohada a las 3 a.m.",
+                        "Hoy me tiré un gas y te miré a los ojos. Que empiece la guerra.",
+                        "He establecido una república independiente en el patio. Ya no pagás impuestos ahí.",
+                        "Tu planta favorita ya no está entre nosotros.",
+                        "Tengo hambre y ningún remordimiento.",
+                        "Si me dejás solo de nuevo, reorganizo la basura por categorías: caos, destrucción y culpa."
+                    ];
+                    this.mensajeTelepatico = mensajes[Math.floor(Math.random() * mensajes.length)];
+                },
+
+                escribirTeletipo(mensaje) {
+                    if (this.escribiendo) return;
+                    this.lineaEnCurso = '';
+                    this.escribiendo = true;
+                    let i = 0;
+                    const escribir = () => {
+                        if (i <= mensaje.length) {
+                            this.lineaEnCurso = mensaje.substring(0, i);
+                            i++;
+                            setTimeout(escribir, 30);
+                        } else {
+                            this.consola.push(mensaje);
+                            if (this.consola.length > 10) this.consola.shift();
+                            this.lineaEnCurso = '';
+                            this.escribiendo = false;
+                        }
+                    };
+                    escribir();
+                }
+            }
+            ,
+            mounted() {
+                setInterval(() => {
+                    if (this.mostrarMensajeDeuda) {
+                        this.deuda += Math.floor(Math.random() * 5) + 1;
+                    }
+                    this.dogcoin += (Math.random() - 0.5).toFixed(2) * 2;
+                    this.dogcoin = parseFloat(this.dogcoin.toFixed(2));
+                }, 3000);
+
+                setInterval(() => {
+                    const mensaje = this.mensajesConsola[Math.floor(Math.random() * this.mensajesConsola.length)];
+                    this.escribirTeletipo(mensaje);
+                }, 3500);
+            }
+        });
+    </script>
 </body>
+
 </html>
