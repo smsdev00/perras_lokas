@@ -139,6 +139,24 @@
             border-bottom: 5px solid lime;
             text-shadow: 0 0 5px #0f0;
         }
+
+        .card-video-cga {
+            background: black;
+            color: cyan;
+            border: 4px double magenta;
+            box-shadow: 0 0 15px cyan;
+        }
+
+        .card-video-cga .card-title {
+            color: #00ffff;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 2px magenta;
+        }
+
+        .card-video-cga iframe {
+            border: 2px solid magenta;
+            box-shadow: 0 0 10px magenta;
+        }
     </style>
 </head>
 
@@ -205,24 +223,22 @@
         <div v-if="seccionActual === 'videos'" class="container my-4">
             <h1 class="text-center display-4">🎬 Videoteca Perruna</h1>
             <div class="row">
-              <div class="col-md-6 mb-4" v-for="video in videos" :key="video.youtubeId">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">{{ video.titulo }}</h5>
-                    <div class="video-container">
-                      <iframe
-                        :src="'https://www.youtube.com/embed/' + video.youtubeId"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                      </iframe>
+                <div class="col-md-6 mb-4" v-for="video in videos" :key="video.youtubeId">
+                    <div class="card shadow card-video-cga">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ video.titulo }}</h5>
+                            <div class="video-container">
+                                <iframe :src="'https://www.youtube.com/embed/' + video.youtubeId" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-          
+        </div>
+
 
     </div>
 
