@@ -7,6 +7,7 @@
     <title>PerrasLocas.com - Versión Noventosa y Desquiciada</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -185,7 +186,7 @@
             border: 3px solid black;
             border-radius: 15px;
             font-family: 'Impact', 'Arial Black', sans-serif;
-            color: white;
+            color: #ff1493;
             font-size: 1.5rem;
             text-shadow: 1px 1px 3px black;
             box-shadow: 0 0 15px red;
@@ -283,6 +284,7 @@
                 </div>
 
                 <div id="dogcoin-section">
+                    <canvas id="dogcoinChart" width="400" height="200"></canvas>
                     <h2>Dogcoin - ¡La Cripto Perruna!</h2>
                     <p>Valor actual de 1 Dogcoin: <strong>{{ dogcoin }} huesitos</strong>. ¡Intercambiable por besitos y
                         carnitas!</p>
@@ -711,6 +713,44 @@
                     this.escribirTeletipo(mensaje);
                 }, 3500);
                 this.actualizarFechaFicticia();
+                let dogcoinData = {
+                    labels: [],
+                    datasets: [{
+                        label: 'Dogcoin',
+                        borderColor: 'magenta',
+                        backgroundColor: 'rgba(255, 105, 180, 0.2)',
+                        data: [],
+                        tension: 0.3
+                    }]
+                };
+
+                let dogcoinChart = new Chart(document.getElementById('dogcoinChart').getContext('2d'), {
+                    type: 'line',
+                    data: dogcoinData,
+                    options: {
+                        responsive: true,
+                        animation: false,
+                        scales: {
+                            y: { beginAtZero: false }
+                        }
+                    }
+                });
+
+                setInterval(() => {
+                    const now = new Date().toLocaleTimeString();
+                    const newValue = this.dogcoin + (Math.random() - 0.5) * 0.2;
+                    this.dogcoin = parseFloat(newValue.toFixed(2));
+
+                    if (dogcoinData.labels.length > 30) {
+                        dogcoinData.labels.shift();
+                        dogcoinData.datasets[0].data.shift();
+                    }
+
+                    dogcoinData.labels.push(now);
+                    dogcoinData.datasets[0].data.push(this.dogcoin);
+                    dogcoinChart.update();
+                }, 500);
+
                 setInterval(this.actualizarFechaFicticia, 10000);
 
             }
