@@ -191,6 +191,16 @@
     z-index: 3;
     white-space: nowrap;
 }
+.fecha-medieval {
+    background: #fff8dc;
+    color: #5b2c06;
+    font-family: 'Papyrus', 'Cinzel Decorative', serif;
+    font-size: 1.4rem;
+    border-top: 4px double #8b4513;
+    border-bottom: 4px double #8b4513;
+    box-shadow: inset 0 0 10px #d2b48c;
+    text-shadow: 1px 1px #fff;
+}
 
     </style>
 </head>
@@ -200,6 +210,10 @@
         <div class="score-counter">
             💰 Balance Actual: {{ balance >= 0 ? '+' : '' }}{{ balance.toLocaleString() }} créditos
         </div>
+        <div class="fecha-medieval text-center py-2">
+            📜 Crónica del día {{ fechaFicticia.dia }} de {{ fechaFicticia.mes }}, Año de la Reina {{ fechaFicticia.anio }}
+        </div>
+        
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#" @click="seccionActual = 'inicio'">{{ siteName }}</a>
             <ul class="navbar-nav ml-auto">
@@ -422,6 +436,12 @@
                 lineaEnCurso: '',
                 escribiendo: false,
                 balance: Math.floor(Math.random() * -10000000), // saldo inicial negativo aleatorio
+                fechaFicticia: {
+                    dia: '',
+                    mes: '',
+                    anio: 0
+                },
+
                 mensajesConsola: [
                     "Analizando entorno...",
                     "Huesito detectado 🦴",
@@ -641,7 +661,21 @@
                         }
                     };
                     escribir();
+                },
+
+                actualizarFechaFicticia() {
+                    const meses = [
+                        "Lunaris", "Canventus", "Perrabril", "Mordembis", "Osobucarius", "Croquetarius",
+                        "Zummis", "Sillonium", "Tostadium", "Patavember", "Pelotember", "Finalis"
+                    ];
+                    const dia = Math.floor(Math.random() * 28) + 1;
+                    const mes = meses[Math.floor(Math.random() * meses.length)];
+                    const anio = Math.floor(Math.random() * (1350 - 1024 + 1)) + 1024;
+                    this.fechaFicticia = { dia, mes, anio };
                 }
+
+
+                
             }
             ,
             mounted() {
@@ -657,6 +691,9 @@
                     const mensaje = this.mensajesConsola[Math.floor(Math.random() * this.mensajesConsola.length)];
                     this.escribirTeletipo(mensaje);
                 }, 3500);
+                this.actualizarFechaFicticia();
+setInterval(this.actualizarFechaFicticia, 10000);
+
             }
         });
     </script>
