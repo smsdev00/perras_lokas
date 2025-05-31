@@ -157,6 +157,41 @@
             border: 2px solid magenta;
             box-shadow: 0 0 10px magenta;
         }
+
+        .palta-marco {
+    display: inline-block;
+    padding: 10px;
+    border: 8px double hotpink;
+    border-radius: 25px;
+    box-shadow: 0 0 20px 5px #ff69b4, 0 0 10px 2px #00ffff inset;
+    transform: rotate(-5deg);
+    background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+}
+
+.palta-foto {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0 25px #ff1493;
+}
+.palta-banner {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    background: linear-gradient(to right, gold, crimson);
+    padding: 0.5rem 1rem;
+    border: 3px solid black;
+    border-radius: 15px;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    color: white;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px black;
+    box-shadow: 0 0 15px red;
+    z-index: 3;
+    white-space: nowrap;
+}
+
     </style>
 </head>
 
@@ -177,7 +212,13 @@
         </nav>
 
         <div v-if="seccionActual === 'inicio'">
-
+            <div class="palta-destacada text-center my-4">
+                <div class="palta-marco position-relative d-inline-block">
+                    <div class="palta-banner">⚔️ *PALTA REGINA COMANDA* ⚔️</div>
+                    <img src="imgs/palta_regina.png" alt="Palta la Paltosa" class="img-fluid palta-foto">
+                </div>
+                
+              </div>
             <div class="container my-4">
                 <h1 class="text-center display-4">Bienvenido a la página d PALTA y sus amigas!</h1>
                 <p class="text-center">Explota los sentidos con perras hiperactivas, colores imposibles y deudas
