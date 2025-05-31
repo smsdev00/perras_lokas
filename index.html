@@ -159,47 +159,65 @@
         }
 
         .palta-marco {
-    display: inline-block;
-    padding: 10px;
-    border: 8px double hotpink;
-    border-radius: 25px;
-    box-shadow: 0 0 20px 5px #ff69b4, 0 0 10px 2px #00ffff inset;
-    transform: rotate(-5deg);
-    background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+            display: inline-block;
+            padding: 10px;
+            border: 8px double hotpink;
+            border-radius: 25px;
+            box-shadow: 0 0 20px 5px #ff69b4, 0 0 10px 2px #00ffff inset;
+            transform: rotate(-5deg);
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+        }
+
+        .palta-foto {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 0 25px #ff1493;
+        }
+
+        .palta-banner {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            background: linear-gradient(to right, gold, crimson);
+            padding: 0.5rem 1rem;
+            border: 3px solid black;
+            border-radius: 15px;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 3px black;
+            box-shadow: 0 0 15px red;
+            z-index: 3;
+            white-space: nowrap;
+        }
+
+        .fecha-medieval {
+            background: #fff8dc;
+            color: #5b2c06;
+            font-family: 'Papyrus', 'Cinzel Decorative', serif;
+            font-size: 1.4rem;
+            border-top: 4px double #8b4513;
+            border-bottom: 4px double #8b4513;
+            box-shadow: inset 0 0 10px #d2b48c;
+            text-shadow: 1px 1px #fff;
+        }
+
+        .palta-marco-animada {
+    animation: levitarPalta 4s ease-in-out infinite;
 }
 
-.palta-foto {
-    max-width: 100%;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 0 25px #ff1493;
-}
-.palta-banner {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
-    background: linear-gradient(to right, gold, crimson);
-    padding: 0.5rem 1rem;
-    border: 3px solid black;
-    border-radius: 15px;
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    color: white;
-    font-size: 1.5rem;
-    text-shadow: 1px 1px 3px black;
-    box-shadow: 0 0 15px red;
-    z-index: 3;
-    white-space: nowrap;
-}
-.fecha-medieval {
-    background: #fff8dc;
-    color: #5b2c06;
-    font-family: 'Papyrus', 'Cinzel Decorative', serif;
-    font-size: 1.4rem;
-    border-top: 4px double #8b4513;
-    border-bottom: 4px double #8b4513;
-    box-shadow: inset 0 0 10px #d2b48c;
-    text-shadow: 1px 1px #fff;
+@keyframes levitarPalta {
+    0% {
+        transform: rotate(-5deg) translateY(0px) scale(1);
+    }
+    50% {
+        transform: rotate(-4deg) translateY(-6px) scale(1.02);
+    }
+    100% {
+        transform: rotate(-5deg) translateY(0px) scale(1);
+    }
 }
 
     </style>
@@ -211,9 +229,10 @@
             💰 Balance Actual: {{ balance >= 0 ? '+' : '' }}{{ balance.toLocaleString() }} créditos
         </div>
         <div class="fecha-medieval text-center py-2">
-            📜 Crónica del día {{ fechaFicticia.dia }} de {{ fechaFicticia.mes }}, Año de la Reina {{ fechaFicticia.anio }}
+            📜 Crónica del día {{ fechaFicticia.dia }} de {{ fechaFicticia.mes }}, Año de la Reina {{ fechaFicticia.anio
+            }}
         </div>
-        
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#" @click="seccionActual = 'inicio'">{{ siteName }}</a>
             <ul class="navbar-nav ml-auto">
@@ -227,12 +246,12 @@
 
         <div v-if="seccionActual === 'inicio'">
             <div class="palta-destacada text-center my-4">
-                <div class="palta-marco position-relative d-inline-block">
+                <div class="palta-marco palta-marco-animada position-relative d-inline-block">
                     <div class="palta-banner">⚔️ *PALTA REGINA COMANDA* ⚔️</div>
                     <img src="imgs/palta_regina.png" alt="Palta la Paltosa" class="img-fluid palta-foto">
                 </div>
-                
-              </div>
+
+            </div>
             <div class="container my-4">
                 <h1 class="text-center display-4">Bienvenido a la página d PALTA y sus amigas!</h1>
                 <p class="text-center">Explota los sentidos con perras hiperactivas, colores imposibles y deudas
@@ -596,7 +615,7 @@
                         titulo: "El tema de Chancho vs los caranchos",
                         youtubeId: "74aGl6YN4Nk"
                     },
-                    
+
                 ]
             },
             methods: {
@@ -675,7 +694,7 @@
                 }
 
 
-                
+
             }
             ,
             mounted() {
@@ -692,7 +711,7 @@
                     this.escribirTeletipo(mensaje);
                 }, 3500);
                 this.actualizarFechaFicticia();
-setInterval(this.actualizarFechaFicticia, 10000);
+                setInterval(this.actualizarFechaFicticia, 10000);
 
             }
         });
