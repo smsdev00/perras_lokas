@@ -290,6 +290,23 @@
                         carnitas!</p>
                 </div>
 
+                
+                <div id="tienda-section">
+                    <h2>Tienda de Regalos Perrunos</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-4" v-for="item in tienda" :key="item.id">
+                            <div class="card card-dog">
+                                <img :src="item.imagen" class="card-img-top" alt="item.nombre">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.nombre }}</h5>
+                                    <p class="card-text">{{ item.descripcion }}</p>
+                                    <p class="card-text"><strong>{{ item.precio }} huesitos dorados</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="telepatia-section">
                     <h2>Telepatía Canina</h2>
                     <p @click="lanzarTelepatia" style="cursor:pointer; font-size:1.5em;">Haz clic aquí para saber lo que
@@ -580,6 +597,31 @@
                         imagen: "imgs/hermana_jefa.jpg"
                     }
                 ],
+                
+                tienda: [
+                    {
+                        id: 1,
+                        nombre: "Collar Táctico de Comando",
+                        descripcion: "Con triple detección: gato, osobuco y comida podrida. Resistente y elegante.",
+                        imagen: "imgs/collar_futurista.png",
+                        precio: 0
+                    },
+                    {
+                        id: 2,
+                        nombre: "Capa de la Reina Palta",
+                        descripcion: "Capa real de gala para tu perra emperatriz.",
+                        imagen: "imgs/capa_reina.png",
+                        precio: 0
+                    },
+                    {
+                        id: 3,
+                        nombre: "Platito de Oro Macizo",
+                        descripcion: "Para croquetas con clase. No incluye croquetas.",
+                        imagen: "imgs/plato_lujoso.png",
+                        precio: 0
+                    }
+                ],
+
                 videos: [
                     {
                         titulo: "Palta vs Suri vs La Jefa",
@@ -752,6 +794,12 @@
                 }, 500);
 
                 setInterval(this.actualizarFechaFicticia, 10000);
+                setInterval(() => {
+                    this.tienda.forEach(item => {
+                        item.precio = Math.floor(Math.random() * 1999999 - 999999);
+                    });
+                }, 800);
+
 
             }
         });
