@@ -270,7 +270,8 @@
         <div id="audio-epico" class="audio-banner text-center">
             🎶 Himno de Palta Regina 🎶
             <audio id="musicaPrincipal" loop="false" autoplay="false" preload="none" controls>
-                <source src="https://cdn.jsdelivr.net/gh/smsdev00/perras_lokas@master/audio/perras_locas_song.mp3" type="audio/mpeg">
+                <source src="https://cdn.jsdelivr.net/gh/smsdev00/perras_lokas@master/audio/perras_locas_song.mp3"
+                    type="audio/mpeg">
                 Tu navegador no soporta audio.
             </audio>
         </div>
@@ -817,8 +818,14 @@
                     if (this.mostrarMensajeDeuda) {
                         this.deuda += Math.floor(Math.random() * 5) + 1;
                     }
-                    this.dogcoin += (Math.random() - 0.5).toFixed(2) * 2;
-                    this.dogcoin = parseFloat(this.dogcoin.toFixed(2));
+                    // 20% de chance de crash
+                    if (Math.random() < 0.1) {
+                        this.dogcoin = parseFloat((Math.random() * -1).toFixed(2));
+                    } else {
+                        // Cambio normal
+                        this.dogcoin += (Math.random() - 0.5).toFixed(2) * 2;
+                        this.dogcoin = parseFloat(this.dogcoin.toFixed(2));
+                    }
                 }, 3000);
 
                 setInterval(() => {
