@@ -206,26 +206,48 @@
         }
 
         .palta-marco-animada {
-    animation: levitarPalta 4s ease-in-out infinite;
-}
+            animation: levitarPalta 4s ease-in-out infinite;
+        }
 
-@keyframes levitarPalta {
-    0% {
-        transform: rotate(-5deg) translateY(0px) scale(1);
-    }
-    50% {
-        transform: rotate(-4deg) translateY(-6px) scale(1.02);
-    }
-    100% {
-        transform: rotate(-5deg) translateY(0px) scale(1);
-    }
-}
+        @keyframes levitarPalta {
+            0% {
+                transform: rotate(-5deg) translateY(0px) scale(1);
+            }
 
+            50% {
+                transform: rotate(-4deg) translateY(-6px) scale(1.02);
+            }
+
+            100% {
+                transform: rotate(-5deg) translateY(0px) scale(1);
+            }
+        }
+
+        #audio-epico {
+            background: linear-gradient(to right, gold, deeppink);
+            color: #000;
+            padding: 1rem;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+            border-top: 4px dashed #ff0;
+            border-bottom: 4px dashed #f0f;
+            box-shadow: 0 0 15px 5px hotpink inset, 0 0 10px gold;
+            z-index: 1000;
+        }
+
+        #audio-epico audio {
+            margin-top: 0.5rem;
+            border: 3px solid magenta;
+            border-radius: 10px;
+            background-color: black;
+            box-shadow: 0 0 10px yellow;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
+
         <div class="score-counter">
             💰 Balance Actual: {{ balance >= 0 ? '+' : '' }}{{ balance.toLocaleString() }} créditos
         </div>
@@ -233,6 +255,7 @@
             📜 Crónica del día {{ fechaFicticia.dia }} de {{ fechaFicticia.mes }}, Año de la Reina {{ fechaFicticia.anio
             }}
         </div>
+
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#" @click="seccionActual = 'inicio'">{{ siteName }}</a>
@@ -244,6 +267,13 @@
 
             </ul>
         </nav>
+        <div id="audio-epico" class="audio-banner text-center">
+            🎶 Himno de Palta Regina 🎶
+            <audio id="musicaPrincipal" autoplay loop preload="auto" controls>
+                <source src="https://cdn.jsdelivr.net/gh/smsdev00/perras_lokas@main/audio/tema.mp3" type="audio/mpeg">
+                Tu navegador no soporta audio.
+            </audio>
+        </div>
 
         <div v-if="seccionActual === 'inicio'">
             <div class="palta-destacada text-center my-4">
@@ -290,7 +320,7 @@
                         carnitas!</p>
                 </div>
 
-                
+
                 <div id="tienda-section">
                     <h2>Tienda de Regalos Perrunos</h2>
                     <div class="row">
@@ -601,9 +631,39 @@
                         nombre: "Pirita 'Huesos grandes' ",
                         descripcion: "La prima de la la reina Palta. La acusan de tener sobrepeso pero son sus huesos grandes.",
                         imagen: "imgs/pirita_armadura.png"
-                    }
+                    },
+                    {
+                        id: 13,
+                        nombre: "Kira 'Mi mamá es casita' ",
+                        descripcion: "Una valiente luchadora. Hasta que aparece un perro mas grande...",
+                        imagen: "imgs/dogo_argentino.png"
+                    },
+                    {
+                        id: 14,
+                        nombre: "Kiara 'Tirame la pelotita' ",
+                        descripcion: "Te dije que me tires la pelotita!",
+                        imagen: "imgs/dogo_argentino.jpg"
+                    },
+                    {
+                        id: 15,
+                        nombre: "Asterix 'El escapista' ",
+                        descripcion: "Haciendo renegar a su madre desde tiempos inmemoriales.",
+                        imagen: "imgs/dogo_argentino.png"
+                    },
+                    {
+                        id: 16,
+                        nombre: "Adolfo 'El dictador' ",
+                        descripcion: "Hay que hacerle caso o atenerse a las consecuencias.",
+                        imagen: "imgs/dogo_argentino.png"
+                    },
+                    {
+                        id: 17,
+                        nombre: "Roy 'pique corto' ",
+                        descripcion: "Pequeño pero poderoso.",
+                        imagen: "imgs/dogo_argentino.png"
+                    },
                 ],
-                
+
                 tienda: [
                     {
                         id: 1,
@@ -657,7 +717,7 @@
                         titulo: "vs Moca",
                         youtubeId: "FM6oVZUXQ6Y"
                     },
-                    
+
                     {
                         titulo: "Sistema Cargado. Tema dark synth de Palta, Guara, Suri y Gala.",
                         youtubeId: "7c-E_tPQN64"
