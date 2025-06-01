@@ -269,7 +269,7 @@
         </nav>
         <div id="audio-epico" class="audio-banner text-center">
             🎶 Himno de Palta Regina 🎶
-            <audio id="musicaPrincipal" loop preload="auto" controls>
+            <audio id="musicaPrincipal" loop="false" autoplay="false" preload="none" controls>
                 <source src="https://cdn.jsdelivr.net/gh/smsdev00/perras_lokas@master/audio/perras_locas_song.mp3" type="audio/mpeg">
                 Tu navegador no soporta audio.
             </audio>
@@ -279,7 +279,7 @@
             <div class="palta-destacada text-center my-4">
                 <div class="palta-marco palta-marco-animada position-relative d-inline-block">
                     <div class="palta-banner">⚔️ *PALTA REGINA COMANDA* ⚔️</div>
-                    <img src="https://cdn.jsdelivr.net/gh/smsdev00/perras_lokas@master/imgs/palta_regina.png" alt="Palta la Paltosa" class="img-fluid palta-foto">
+                    <img src="imgs/palta_regina.png" alt="Palta la Paltosa" class="img-fluid palta-foto">
                 </div>
 
             </div>
@@ -355,7 +355,7 @@
                             <h5 class="card-title text-center">{{ video.titulo }}</h5>
                             <div class="video-container">
                                 <iframe :src="'https://www.youtube.com/embed/' + video.youtubeId" frameborder="0"
-                                    allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowfullscreen>
                                 </iframe>
                             </div>
