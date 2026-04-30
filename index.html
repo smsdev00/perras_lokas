@@ -256,15 +256,6 @@
 <body>
     <div id="app">
 
-        <div class="score-counter">
-            💰 Balance Actual: {{ balance >= 0 ? '+' : '' }}{{ balance.toLocaleString() }} créditos
-        </div>
-        <div class="fecha-medieval text-center py-2">
-            📜 Crónica del día {{ fechaFicticia.dia }} de {{ fechaFicticia.mes }}, Año de la Reina {{ fechaFicticia.anio
-            }}
-        </div>
-
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#" @click="seccionActual = 'inicio'">{{ siteName }}</a>
             <ul class="navbar-nav ml-auto">
@@ -310,15 +301,6 @@
                 <div id="matrix-console">
                     <p class="console-line" v-for="(line, index) in consola" :key="index">{{ line }}</p>
                     <p class="console-line" v-if="lineaEnCurso">{{ lineaEnCurso }}</p>
-                </div>
-
-                <div id="prestamos-section">
-                    <h2>Préstamos Perrunos</h2>
-                    <button class="btn btn-deuda" @click="solicitarDinero">Solicitar Dinero Ficticio</button>
-                    <div v-if="mostrarMensajeDeuda" class="deuda-alert">
-                        😡 Tu deuda ahora es de <strong>{{ deuda }} huesitos dorados</strong>.<br>
-                        <em>Duquesa 'Demente' te está buscando. Corre.</em>
-                    </div>
                 </div>
 
                 <div id="dogcoin-section">
@@ -381,20 +363,11 @@
             data: {
                 siteName: 'PerrasLocas.com',
                 seccionActual: 'inicio',
-                mostrarMensajeDeuda: false,
-                deuda: 37,
                 dogcoin: 7.5,
                 mensajeTelepatico: '',
                 consola: [],
                 lineaEnCurso: '',
                 escribiendo: false,
-                balance: Math.floor(Math.random() * -10000000), // saldo inicial negativo aleatorio
-                fechaFicticia: {
-                    dia: '',
-                    mes: '',
-                    anio: 0
-                },
-
                 mensajesConsola: [
                     "Analizando entorno...",
                     "Huesito detectado 🦴",
@@ -555,22 +528,6 @@
                 ]
             },
             methods: {
-                solicitarDinero() {
-                    this.balance = Math.floor(Math.random() * 19999999 - 9999999); // entre -9999999 y +9999999
-                    this.deuda += Math.floor(Math.random() * 5) + 1;
-
-                    // Mostrar mensaje visual
-                    this.mostrarMensajeDeuda = true;
-
-                    // Ocultar el mensaje a los 10 segundos
-                    //setTimeout(() => {
-                    //  this.mostrarMensajeDeuda = false;
-                    //}, 10000);
-                    setInterval(() => {
-                        this.balance = Math.floor(Math.random() * 19999999 - 9999999); // entre -9999999 y +9999999
-                    }, 2000);
-                },
-
                 lanzarTelepatia() {
                     const mensajes = [
                         "Traeme una salchicha o habrá consecuencias.",
@@ -618,26 +575,12 @@
                     escribir();
                 },
 
-                actualizarFechaFicticia() {
-                    const meses = [
-                        "Lunaris", "Canventus", "Perrabril", "Mordembis", "Osobucarius", "Croquetarius",
-                        "Zummis", "Sillonium", "Tostadium", "Patavember", "Pelotember", "Finalis"
-                    ];
-                    const dia = Math.floor(Math.random() * 28) + 1;
-                    const mes = meses[Math.floor(Math.random() * meses.length)];
-                    const anio = Math.floor(Math.random() * (1350 - 1024 + 1)) + 1024;
-                    this.fechaFicticia = { dia, mes, anio };
-                }
-
 
 
             }
             ,
             mounted() {
                 setInterval(() => {
-                    if (this.mostrarMensajeDeuda) {
-                        this.deuda += Math.floor(Math.random() * 5) + 1;
-                    }
                     // 20% de chance de crash
                     if (Math.random() < 0.1) {
                         this.dogcoin = parseFloat((Math.random() * -1).toFixed(2));
@@ -652,7 +595,6 @@
                     const mensaje = this.mensajesConsola[Math.floor(Math.random() * this.mensajesConsola.length)];
                     this.escribirTeletipo(mensaje);
                 }, 3500);
-                this.actualizarFechaFicticia();
                 let dogcoinData = {
                     labels: [],
                     datasets: [{
@@ -691,7 +633,6 @@
                     dogcoinChart.update();
                 }, 500);
 
-                setInterval(this.actualizarFechaFicticia, 10000);
                 setInterval(() => {
                     this.tienda.forEach(item => {
                         item.precio = Math.floor(Math.random() * 1999999 - 999999);
