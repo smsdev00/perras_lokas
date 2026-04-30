@@ -92,12 +92,6 @@
 
         #prestamos-section,
         #dogcoin-section,
-        #telepatia-section {
-            padding: 2rem;
-            background: linear-gradient(to bottom, #ff0, #f0f);
-            text-align: center;
-            border-top: 5px dotted #000;
-        }
 
         .deuda-alert {
             font-size: 1.5em;
@@ -327,12 +321,6 @@
                     </div>
                 </div>
 
-                <div id="telepatia-section">
-                    <h2>Telepatía Canina</h2>
-                    <p @click="lanzarTelepatia" style="cursor:pointer; font-size:1.5em;">Haz clic aquí para saber lo que
-                        está pensando tu perra...</p>
-                    <p v-if="mensajeTelepatico">🐶 "{{ mensajeTelepatico }}"</p>
-                </div>
             </div>
         </div>
 
@@ -364,7 +352,6 @@
                 siteName: 'PerrasLocas.com',
                 seccionActual: 'inicio',
                 dogcoin: 7.5,
-                mensajeTelepatico: '',
                 consola: [],
                 lineaEnCurso: '',
                 escribiendo: false,
@@ -528,33 +515,6 @@
                 ]
             },
             methods: {
-                lanzarTelepatia() {
-                    const mensajes = [
-                        "Traeme una salchicha o habrá consecuencias.",
-                        "He escondido tu media izquierda. Nunca la recuperarás.",
-                        "Solo acepto snacks premium a partir de ahora.",
-                        "He aprendido a abrir la heladera. Tú decides cómo sigue esto.",
-                        "He masticado algo importante. Te toca descubrir qué era.",
-                        "Cada vez que ignorás mi cola moviéndose, me acerco más a la traición.",
-                        "Tu cama ahora es mía. Y ronco.",
-                        "He memorizado tus horarios. No estás a salvo.",
-                        "Hoy ladro cada vez que respires. Suerte durmiendo.",
-                        "Comí algo del tacho. Tal vez no era comestible. Tal vez sí.",
-                        "Te vi tocando la bolsa de galletas. No disimules.",
-                        "Cada vez que usás el teléfono, planifico un golpe de estado.",
-                        "He enterrado algo en la alfombra. No sabés cuándo ni qué.",
-                        "No me diste bocado. Consideralo un acto hostil.",
-                        "Pisé lo que no debía. Lo extendí por donde sí.",
-                        "Hoy me subo al sillón mojado. ¿Querías emociones fuertes, no?",
-                        "Si no me tirás la pelota, te la dejo en la almohada a las 3 a.m.",
-                        "He establecido una república independiente en el patio. Ya no pagás impuestos ahí.",
-                        "Tu planta favorita ya no está entre nosotros.",
-                        "Tengo hambre y ningún remordimiento.",
-                        "Si me dejás solo de nuevo, reorganizo la basura por categorías: caos, destrucción y culpa."
-                    ];
-                    this.mensajeTelepatico = mensajes[Math.floor(Math.random() * mensajes.length)];
-                },
-
                 escribirTeletipo(mensaje) {
                     if (this.escribiendo) return;
                     this.lineaEnCurso = '';
